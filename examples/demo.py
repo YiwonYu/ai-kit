@@ -1,4 +1,4 @@
-"""실행 도구 검증용 예제. 실제 과제 알고리즘이 아니다."""
+"""검증용 예제"""
 import argparse
 import os
 import random
