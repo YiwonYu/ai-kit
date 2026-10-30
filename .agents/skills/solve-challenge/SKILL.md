@@ -1,5 +1,5 @@
 ---
-name: solve-challenge
+name: solve
 description: 제한 시간의 AI 연구·알고리즘·개발 과제를 분석하고 baseline, 실험, 검증, 제출 준비를 수행할 때 사용한다. 일반 질문이나 단순 파일 수정에는 사용하지 않는다.
 ---
 
