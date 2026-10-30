@@ -12,14 +12,25 @@ codex
 ```
 
 ```text
-$solve-challenge
+$solve
 원문: [여기에 입력]
 전체 시간: [분], 실행 환경: [CPU/GPU/메모리]
 허용 도구와 제출 조건: [안내문]
 원문을 읽고 PLAN.md를 채운 뒤 baseline부터 실행해라.
 ```
 
-AGENTS.md는 이 프로젝트의 공통 지침이다. Skill은 `.agents/skills/solve-challenge/SKILL.md`에 있으며 `/skills`에서 확인할 수 있다. 실제 실행·수정은 사용자의 요청으로 시작한다. 자동 타이머·예약·백그라운드 에이전트는 없다.
+AGENTS.md는 이 프로젝트의 공통 지침이다. Skill은 `.agents/skills/solve/SKILL.md`에 있으며 `/skills`에서 확인할 수 있다. 실제 실행·수정은 사용자의 요청으로 시작한다. 자동 타이머·예약·백그라운드 에이전트는 없다.
+
+## 별도 ai-kit 폴더 없이 받기
+
+현재 디렉터리가 비어 있을 때 다음 명령을 사용한다. 숨김 파일도 없어야 하며 Git 저장소가 초기화되어 있어도 사용할 수 없다.
+
+```bash
+git clone https://github.com/YiwonYu/ai-kit.git .
+codex
+```
+
+현재 폴더에 파일이 있으면 이 명령은 실패한다. 기존 파일을 삭제하지 말고 별도 위치에 clone한 뒤 필요한 파일만 병합한다. 기존 AGENTS.md와 .agents 설정을 덮어쓰지 않는다.
 
 ## 기존 과제 저장소에서 사용
 
@@ -44,7 +55,7 @@ python scripts/run_experiment.py --name timeout --timeout 0.2 -- python examples
 ## 파일 구성과 작업 순서
 
 - AGENTS.md: 공통 규칙
-- .agents/skills/solve-challenge/SKILL.md: 문제 풀이 절차
+- .agents/skills/solve/SKILL.md: 문제 풀이 절차
 - templates/: PLAN, EXPERIMENTS, HANDOFF, SUBMISSION 빈 양식
 - scripts/run_experiment.py: 실행·로그·시간 제한
 - examples/demo.py: 정상·실패·시간 초과 예제
