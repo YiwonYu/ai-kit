@@ -1,86 +1,108 @@
 # AI Kit
 
-AI 연구·알고리즘·개발 과제를 위한 최소 작업 키트. Python 3.10 이상.
+Codex CLI용 계획 승인·실험 비교·블록별 구현·자동 검증 키트이다. Python 3.10 이상과 표준 라이브러리만 사용한다.
 
-## 빠른 시작
+## 시작
 
 ```bash
 git clone https://github.com/YiwonYu/ai-kit.git
 cd ai-kit
-python -m unittest discover -s tests -v
 codex
 ```
 
 ```text
 $solve
-원문: [여기에 입력]
-전체 시간: [분], 실행 환경: [CPU/GPU/메모리]
-허용 도구와 제출 조건: [안내문]
-먼저 문제 설명·접근법·구조·실험·하네스·검증 항목을 PLAN.md에 작성해라.
-계획을 보여주고 멈춰라. 내가 수정하고 허락한 뒤 블록별로 진행해라.
+문제: [원문]
+시간·환경·제출 조건: [내용]
+문제를 설명하고 단계별 접근·구조·실험·하네스·검증 계획을 작성해라.
+아직 구현·실행하지 말고 계획 검토를 기다려라.
 ```
 
-AGENTS.md는 이 프로젝트의 공통 지침이다. Skill은 `.agents/skills/solve/SKILL.md`에 있으며 `/skills`에서 확인할 수 있다. 실제 실행·수정은 사용자의 요청으로 시작한다. 자동 타이머·예약·백그라운드 에이전트는 없다.
+검토 후 “방법 탐색 계획을 승인한다. baseline 구현·평가 블록만 진행해라”처럼 실행 범위를 지정한다. 각 블록 결과를 확인하고 다음 허락을 준다. 여러 블록을 승인하면 해당 범위까지 진행한다. 공통 지침은 AGENTS.md, Skill은 `.agents/skills/solve/SKILL.md`에 있다. 승인 흐름은 지침이며 실행 스크립트의 권한 잠금은 아니다.
 
-## 별도 ai-kit 폴더 없이 받기
+## 읽기 쉬운 현재 상태
 
-현재 디렉터리가 비어 있을 때 다음 명령을 사용한다. 숨김 파일도 없어야 하며 Git 저장소가 초기화되어 있어도 사용할 수 없다.
+| 파일·경로 | 내용 | 갱신 방식 |
+|---|---|---|
+| PLAN.md | 문제 설명, 현재 목표·단계 연결·승인 | 약 60줄 이내, 현재 내용 갱신 |
+| plans/<단계>.md | 방법 탐색·DB·web 세부 접근·구조·블록·tests | 단계별 현재 계획 |
+| EXPERIMENTS.md | 방법 설명표 + 성능 비교표 | 두 표의 행 갱신·추가 |
+| methods/<설명적인-방법>/ | METHOD.md, RESULTS.md, 설정 | 상세 원리·명령·실행 근거 |
+| DECISIONS.md | 채택·보류·폐기 결정표 | 현재 상태 갱신 |
+| decisions/<주제>.md | 선택 이유·대안·증거·Git 참조 | 과거 버전은 Git |
+| HANDOFF.md | 현재 상태·막힌 점·다음 행동 | 약 25줄 이내 |
+| PROJECT_STRUCTURE.md | 프로젝트 파일 역할·구조 계약 | 승인된 구조 변경만 반영 |
+| verification.json | 요구사항과 자동 검사 연결 | 실제 프로젝트에 맞춤 |
+| runs/ | 실행·검증 원본 로그 | 매 실행 보존, Git 제외 |
+
+양식은 templates/에 있다. 실제 파일은 문제 작업 폴더에 만들며 원본 양식은 유지한다. 날짜별 추가 섹션이나 A1/N1 같은 약어만 있는 이름을 쓰지 않는다. 새 실험은 두 표를 갱신하고 상세 근거는 methods/에 둔다. 다른 데이터·분할·지표·예산의 결과를 같은 조건처럼 비교하지 않는다.
+
+방법 탐색·DB·web은 독립 결과물·검증·승인 기준이 있으면 plans/로 나눈다. 전체 PLAN에는 연결과 선행 조건만 남긴다. 입출력 계약과 fixture를 먼저 합의하면 전체 구현 전에 일부 연결을 검증할 수 있다. 필요 없는 단계를 의무적으로 만들지 않는다.
+
+기존에 누적된 문서가 있다면 승인 후 원본을 보존·이관하고 현재 문서에서 근거를 링크한다. 원본 실행 결과를 삭제하거나 기존 사용자 변경을 덮어쓰지 않는다.
+
+## 자동 검증
+
+키트 자체를 검증하려면 다음 한 명령을 사용한다.
 
 ```bash
-git clone https://github.com/YiwonYu/ai-kit.git .
-codex
+python scripts/verify_pipeline.py --config verification.json
 ```
 
-현재 폴더에 파일이 있으면 이 명령은 실패한다. 기존 파일을 삭제하지 말고 별도 위치에 clone한 뒤 필요한 파일만 병합한다. 기존 AGENTS.md와 .agents 설정을 덮어쓰지 않는다.
+**루트 verification.json은 이 키트의 실행 도구만 검사한다. 실제 문제·DB·web 서비스가 검증된 것은 아니다.**
 
-## 기존 과제 저장소에서 사용
+프로젝트에서는 승인 후 `templates/verification.json`을 참고해 요구사항과 실제 tests를 등록한다. 초안은 모든 검사가 pending이므로 실행하면 실패한다. 실제 검사로 채우기 전에는 통과하지 않는다. 기존 프로젝트 설정은 덮어쓰지 않는다.
 
-기존 과제 저장소는 별도로 유지한다. 이 키트를 참고 자료로 지정하고 Codex에 필요한 지침·스크립트만 적용하도록 요청한다. 기존 AGENTS.md, 실행 코드, Git 이력을 덮어쓰지 않는다. 공개 저장소는 GitHub 인증 없이 clone할 수 있다. 시험 환경의 네트워크와 반입 규정을 먼저 확인한다.
+- scope: 실제로 무엇을 검증하는지 설명
+- requirements: 요구사항별 필수 check ID 연결. 없는 검사나 optional 검사로 연결하면 설정 오류
+- required_categories: 누락해서는 안 되는 검사 종류
+- checks: 사람이 읽는 이름, category, oracle(독립적 예상 결과·판정 근거), required, 실행 명령과 timeout
+- category: structure / unit / integration / e2e / negative / boundary / other
+- structure: paths의 상대 경로와 file/directory 종류 확인. 외부 경로·프로젝트 밖 symlink는 허용하지 않음
+- command: shell 문자열이 아닌 인자 배열. `{python}`은 현재 Python 실행 파일로 치환
+- expected_exit: 기본 0. 오류 처리 검사에서 의도한 비정상 종료를 확인할 때만 별도 지정
+- pending: 미구현 검사. 필수 pending·실패·timeout·실행 오류는 전체 실패
 
-## 실험 실행
+예시 검사 한 항목(실제 tests가 구현되어 있어야 한다):
 
-저장소 루트에서 실행한다. `--` 뒤는 shell 문자열이 아니라 명령 인자이다. 종료 코드: 성공 0, 자식 실패 1, 실행 실패 2, 시간 초과 124, 중단 130. 실제 자식 종료 코드는 metadata.json에 보존한다.
+```json
+{
+  "id": "database-roundtrip",
+  "name": "대표 입력의 DB 저장 후 조회 값 일치",
+  "category": "integration",
+  "required": true,
+  "oracle": "독립적으로 정한 fixture의 필드·개수와 실제 저장·조회 결과를 비교한다.",
+  "command": ["{python}", "-m", "unittest", "tests.test_database_roundtrip"],
+  "timeout": 30
+}
+```
+
+검증마다 `runs/verification/<고유ID>/`에 report.json, report.md, 설정 snapshot, 검사별 로그·metadata를 보존한다. JSON은 실행 당시 Git commit·dirty 상태와 요구사항 연결을 포함한다. 종료 코드: 통과 0, 필수 검사 실패·blocked 1, 설정 오류 2, 중단 130. optional 실패도 보고서에 나타나지만 전체 통과를 막지는 않는다. 구조 검사는 파일 존재·종류만 확인하며 의존성이나 기능은 tests로 검사한다.
+
+GitHub Actions는 push·PR 시 Python 3.10/3.12에서 같은 파이프라인을 실행하고 보고서·로그를 14일간 artifact로 보존한다. 실제 프로젝트에서는 workflow도 해당 프로젝트의 검증 설정을 실행하도록 연결한다.
+
+**테스트 통과는 선언한 조건의 근거이며 AI 코드의 무결함 보장이 아니다.** 사람이 요구사항·예상값·tests를 검토하고, 실제 전체 흐름·실패 복구·경계를 확인해야 한다. mock만 통과한 검사를 실제 외부 연동으로 표현하지 않는다. 프로덕션 DB나 실제 사용자 데이터에 파괴적인 테스트를 실행하지 않는다. 검증 설정은 명령을 실행하므로 읽고 신뢰할 수 있는 설정만 사용한다.
+
+## 실험 실행 도구
 
 ```bash
 python scripts/run_experiment.py --name baseline --timeout 30 --seed 42 -- python examples/demo.py --mode success
-python scripts/run_experiment.py --name fail --timeout 30 -- python examples/demo.py --mode fail
-python scripts/run_experiment.py --name timeout --timeout 0.2 -- python examples/demo.py --mode wait
 ```
 
-매 실행은 `runs/고유ID/`를 만들고 `metadata.json`, `stdout.log`, `stderr.log`를 보존한다. 실패·시간 초과도 다른 실행 결과를 덮어쓰지 않는다. 실행 전 command, cwd, UTC 시작 시간, Git commit·dirty 여부를 기록한다. 끝나면 종료 상태·시간·실제 return code를 기록한다. Git 변경 내용 자체는 보존하지 않으므로 재현하려면 코드도 별도로 commit해야 한다.
+매 실행의 명령·cwd·seed·코드 버전·시간·종료·stdout/stderr를 별도 runs/ 폴더에 보존한다. 성공 0, 자식 실패 1, 실행 오류 2, 시간 초과 124, 중단 130을 반환하며 실제 자식 종료 코드는 metadata에 남긴다. --seed는 HARNESS_SEED로 전달하므로 학습 코드에서 random/NumPy/PyTorch seed를 적용해야 한다. POSIX는 일반적인 프로세스 그룹, Windows는 직접 자식을 종료하며 별도로 이탈한 프로세스는 보장하지 않는다.
 
-`--seed`는 메타데이터와 `HARNESS_SEED` 환경 변수에 전달된다. 학습 코드에서 random/NumPy/PyTorch seed를 직접 설정해야 한다. 외부 API의 결정성은 보장하지 않는다. 예제는 Python random에 이를 적용한다. timeout은 실행 명령 단위 제한이며 전체 시험 시간은 직접 관리해야 한다. POSIX에서는 일반적인 자식 프로세스 그룹도 종료하지만 별도 세션으로 이탈한 프로세스까지 보장하지 않는다. Windows에서는 직접 자식만 종료한다.
+실행 명령·로그는 원문 저장되므로 비밀을 넣거나 출력하지 않는다. 이 도구는 sandbox나 개인정보 제거기가 아니다. metadata의 commit만으로 dirty 변경을 복원할 수 없으므로 해당 코드도 블록 커밋으로 보존한다. 기본적으로 로그·데이터·가중치는 Git 제외이며 중요한 결과와 재현 조건은 문서에 기록한다.
 
-명령 인자·stdout·stderr는 그대로 저장된다. 비밀은 명령 인자로 넘기거나 출력하지 않는다. 이 도구는 sandbox, 보안 검사기, 정답 평가기 또는 민감정보 제거기가 아니다.
+## Git와 인계
 
-## 파일 구성과 작업 순서
+승인 계획 → 블록별 코드·tests·결과표·결정·현재 요약을 의미 있는 로컬 커밋으로 남긴다. 필요한 경로만 stage하고 기존 사용자 변경은 섞지 않는다. 실행 코드 버전과 결과 기록 커밋을 구분한다. push는 별도 요청 때만 한다. PLAN/HANDOFF에 이력을 쌓지 않고 Git과 상세 파일을 참조한다.
 
-- AGENTS.md: 공통 규칙
-- .agents/skills/solve/SKILL.md: 문제 풀이 절차
-- templates/: PLAN, EXPERIMENTS, HANDOFF, SUBMISSION 빈 양식
-- scripts/run_experiment.py: 실행·로그·시간 제한
-- examples/demo.py: 정상·실패·시간 초과 예제
-- tests/: 실행 도구의 회귀 검사
+## 기존 폴더에서 사용
 
-문제 이해 → PLAN 제안 → 사용자 수정·명시적 승인 → 승인된 블록 작업·테스트 → EXPERIMENTS·HANDOFF 기록 및 Git 커밋 → 결과 보고·다음 블록 승인 → 전체 검증·제출 순서로 진행한다. 양식은 루트의 같은 이름 파일로 복사해 채우되 templates 원본은 유지한다.
+빈 현재 폴더에는 다음처럼 받을 수 있다.
 
-## 문제 유형별로 현장에서 추가할 검사
+```bash
+git clone https://github.com/YiwonYu/ai-kit.git .
+```
 
-| 유형 | 확인할 항목 |
-|---|---|
-| 모델 학습 | 고정 학습 조건, 데이터 누수, 파라미터 수, 실제 추론 metric |
-| 규칙 복원 | 알려진 합성 규칙 복원, 별도 검증 시퀀스, 출력 길이 |
-| 수치 예측 | 시계열 분할, baseline 비교, 합계 등 명세상 불변조건 |
-| 영상 에이전트 | 숫자 순 파일 매핑, 선택지 유효성, 처리 시간, 재시도·결과 보존 |
-
-문제에 따라 metric과 제약을 결정한다. 미리 특정 모델·학습률·선택지 수를 강제하지 않는다. 손풀이 또는 AI 금지 시험에서는 이 키트를 사용하지 않는다.
-
-## 계획 승인과 블록별 진행
-
-`$solve`는 기본적으로 먼저 문제를 설명하고 접근법·구조·실험·추가 하네스·문제별 검증 항목을 PLAN.md에 작성한 뒤 멈춘다. 계획 단계에는 읽기 전용 확인과 PLAN 작성만 허용한다. 사용자 수정 요청은 반영하되 승인으로 간주하지 않는다.
-
-계획을 검토한 후 예를 들어 “PLAN v2를 승인한다. B01만 구현·테스트하고 보고해라”라고 요청한다. 블록 시작 전에 작업과 테스트를 EXPERIMENTS에 기록하고, 종료 후 실제 결과·로그·실패·Git commit을 보고하고 다음 허락을 기다린다. 여러 블록을 한 번에 진행하려면 승인 범위를 명시한다. 계획의 중요한 변경은 재승인을 받는다.
-
-Git은 실제 문제 저장소에서 승인 계획과 블록별 변경을 로컬 커밋으로 보존한다. 기존 사용자 변경은 보존하고 필요한 경로만 stage한다. 원격 push는 별도 요청 때만 한다. 실행 로그는 기본적으로 Git 제외이므로 EXPERIMENTS에 경로와 핵심 결과를 남긴다. Git identity가 없거나 commit이 막히면 원인을 보고한다.
-
-이 승인 흐름은 Codex가 읽는 지침이며 실행 스크립트가 강제하는 권한 잠금은 아니다. 사용자가 터미널에서 직접 스크립트를 실행하는 것을 차단하지 않는다.
+파일이 있는 과제 폴더에서는 하위에 clone하고 Codex에 `ai-kit/AGENTS.md`와 `ai-kit/.agents/skills/solve/SKILL.md`를 읽으라고 명시해도 된다. 이 경우 하위 Skill이 자동 발견된다고 가정하지 않는다. 실행·양식 경로는 키트 위치를 기준으로 해석하고, 결과·계획·Git 기록은 실제 문제 프로젝트에서 관리한다. 기존 AGENTS.md나 .agents 설정을 덮어쓰지 않는다. 시험의 자료 반입·AI 허용 규칙이 우선이다.

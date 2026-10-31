@@ -1,0 +1,136 @@
+{
+  "scope": "AI Kit 자체의 실행·검증 도구만 확인한다. 실제 문제·DB·웹 서비스의 검증이 아니다.",
+  "required_categories": [
+    "structure",
+    "unit",
+    "e2e",
+    "negative"
+  ],
+  "requirements": [
+    {
+      "id": "kit-structure",
+      "checks": [
+        "kit-structure"
+      ]
+    },
+    {
+      "id": "kit-unit",
+      "checks": [
+        "kit-unit"
+      ]
+    },
+    {
+      "id": "kit-smoke",
+      "checks": [
+        "kit-smoke"
+      ]
+    },
+    {
+      "id": "kit-negative",
+      "checks": [
+        "kit-negative"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "kit-structure",
+      "name": "키트의 필수 파일과 디렉터리",
+      "category": "structure",
+      "oracle": "공통 지침·Skill·양식·실행·검증 코드가 지정된 경로와 종류로 존재한다.",
+      "paths": [
+        {
+          "path": "AGENTS.md",
+          "kind": "file"
+        },
+        {
+          "path": ".agents/skills/solve/SKILL.md",
+          "kind": "file"
+        },
+        {
+          "path": "scripts/run_experiment.py",
+          "kind": "file"
+        },
+        {
+          "path": "scripts/verify_pipeline.py",
+          "kind": "file"
+        },
+        {
+          "path": "templates/PLAN.md",
+          "kind": "file"
+        },
+        {
+          "path": "templates/EXPERIMENTS.md",
+          "kind": "file"
+        },
+        {
+          "path": "templates/HANDOFF.md",
+          "kind": "file"
+        },
+        {
+          "path": "templates/DECISIONS.md",
+          "kind": "file"
+        },
+        {
+          "path": "templates/STAGE_PLAN.md",
+          "kind": "file"
+        },
+        {
+          "path": "templates/PROJECT_STRUCTURE.md",
+          "kind": "file"
+        },
+        {
+          "path": "templates/verification.json",
+          "kind": "file"
+        },
+        {
+          "path": "tests",
+          "kind": "directory"
+        }
+      ]
+    },
+    {
+      "id": "kit-unit",
+      "name": "실행·검증 도구의 회귀 검사",
+      "category": "unit",
+      "oracle": "unittest의 독립적인 정상·실패·시간초과·판정 검사들이 통과한다. 서비스의 정확성은 검사하지 않는다.",
+      "command": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "timeout": 60
+    },
+    {
+      "id": "kit-smoke",
+      "name": "예제의 실행부터 로그 저장까지",
+      "category": "e2e",
+      "oracle": "예제 명령이 정상 종료한다. 로그 내용 검사는 회귀 테스트에서 확인한다.",
+      "command": [
+        "{python}",
+        "examples/demo.py",
+        "--mode",
+        "success"
+      ],
+      "timeout": 10
+    },
+    {
+      "id": "kit-negative",
+      "name": "의도한 오류의 종료 코드 보존",
+      "category": "negative",
+      "oracle": "실패 예제가 의도한 종료 코드 7을 반환한다.",
+      "command": [
+        "{python}",
+        "examples/demo.py",
+        "--mode",
+        "fail"
+      ],
+      "expected_exit": 7,
+      "timeout": 10
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "scope": "실제 문제에 맞춰 수정할 미완성 검증 초안. 모든 pending 검사는 실패로 처리된다.",
+  "required_categories": [
+    "structure",
+    "unit",
+    "integration",
+    "e2e",
+    "negative",
+    "boundary"
+  ],
+  "requirements": [
+    {
+      "id": "실제 요구사항으로 교체",
+      "checks": [
+        "structure",
+        "unit",
+        "integration",
+        "e2e",
+        "negative",
+        "boundary"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "structure",
+      "name": "승인된 파일 구조",
+      "category": "structure",
+      "required": true,
+      "pending": true,
+      "reason": "계획 승인 후 실제 프로젝트용 검사로 구현해야 한다.",
+      "oracle": "필수 경로·파일 종류가 구조 계약과 일치한다."
+    },
+    {
+      "id": "unit",
+      "name": "핵심 계산·처리의 정답",
+      "category": "unit",
+      "required": true,
+      "pending": true,
+      "reason": "계획 승인 후 실제 프로젝트용 검사로 구현해야 한다.",
+      "oracle": "문제에서 유도한 독립적인 정답·fixture와 비교한다."
+    },
+    {
+      "id": "integration",
+      "name": "블록 간 데이터 전달",
+      "category": "integration",
+      "required": true,
+      "pending": true,
+      "reason": "계획 승인 후 실제 프로젝트용 검사로 구현해야 한다.",
+      "oracle": "입출력 계약과 실제 전달 값이 일치한다."
+    },
+    {
+      "id": "e2e",
+      "name": "입력부터 DB 저장·조회 및 웹 결과까지",
+      "category": "e2e",
+      "required": true,
+      "pending": true,
+      "reason": "계획 승인 후 실제 프로젝트용 검사로 구현해야 한다.",
+      "oracle": "대표 입력이 실제 전체 경로를 지나 기대한 저장·조회·표시 결과를 낸다."
+    },
+    {
+      "id": "negative",
+      "name": "잘못된 입력·연동 실패 처리",
+      "category": "negative",
+      "required": true,
+      "pending": true,
+      "reason": "계획 승인 후 실제 프로젝트용 검사로 구현해야 한다.",
+      "oracle": "명세에서 정한 실패 응답·데이터 보존·복구를 확인한다."
+    },
+    {
+      "id": "boundary",
+      "name": "최솟값·최댓값·빈 입력 등의 경계",
+      "category": "boundary",
+      "required": true,
+      "pending": true,
+      "reason": "계획 승인 후 실제 프로젝트용 검사로 구현해야 한다.",
+      "oracle": "문제별 경계 입력의 예상 결과를 정의하고 비교한다."
+    }
+  ]
+}
