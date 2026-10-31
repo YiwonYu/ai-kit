@@ -89,7 +89,7 @@ ai-kit/README.md와 Prob.md를 읽고 진행해줘
 python scripts/verify_pipeline.py --config verification.json
 ```
 
-**루트 verification.json은 이 키트의 실행 도구만 검사한다. 실제 문제·DB·web 서비스가 검증된 것은 아니다.**
+루트 verification.json의 대상은 키트 실행 도구이다. 문제·DB·web 서비스용 검사는 아래 절차로 등록한다.
 
 프로젝트에서는 승인 후 `templates/verification.json`을 참고해 요구사항과 실제 tests를 등록한다. 초안은 모든 검사가 pending이므로 실행하면 실패한다. 실제 검사로 채우기 전에는 통과하지 않는다. 기존 프로젝트 설정은 덮어쓰지 않는다.
 
@@ -121,7 +121,7 @@ python scripts/verify_pipeline.py --config verification.json
 
 GitHub Actions는 push·PR 시 Python 3.10/3.12에서 같은 파이프라인을 실행하고 보고서·로그를 14일간 artifact로 보존한다. 실제 프로젝트에서는 workflow도 해당 프로젝트의 검증 설정을 실행하도록 연결한다.
 
-**테스트 통과는 선언한 조건의 근거이며 AI 코드의 무결함 보장이 아니다.** 사람이 요구사항·예상값·tests를 검토하고, 실제 전체 흐름·실패 복구·경계를 확인해야 한다. mock만 통과한 검사를 실제 외부 연동으로 표현하지 않는다. 프로덕션 DB나 실제 사용자 데이터에 파괴적인 테스트를 실행하지 않는다. 검증 설정은 명령을 실행하므로 읽고 신뢰할 수 있는 설정만 사용한다.
+요구사항·예상값·tests를 검토하고 전체 흐름·실패 복구·경계 결과를 보고한다. 실제 연동과 mock 검사 범위를 구분한다. 프로덕션 DB나 실제 사용자 데이터에 파괴적인 테스트를 실행하지 않는다. 검증 설정은 명령을 실행하므로 읽고 신뢰할 수 있는 설정만 사용한다.
 
 ## 실험 실행 도구
 
@@ -129,9 +129,9 @@ GitHub Actions는 push·PR 시 Python 3.10/3.12에서 같은 파이프라인을 
 python scripts/run_experiment.py --name baseline --timeout 30 --seed 42 -- python examples/demo.py --mode success
 ```
 
-매 실행의 명령·cwd·seed·코드 버전·시간·종료·stdout/stderr를 별도 runs/ 폴더에 보존한다. 성공 0, 자식 실패 1, 실행 오류 2, 시간 초과 124, 중단 130을 반환하며 실제 자식 종료 코드는 metadata에 남긴다. --seed는 HARNESS_SEED로 전달하므로 학습 코드에서 random/NumPy/PyTorch seed를 적용해야 한다. POSIX는 일반적인 프로세스 그룹, Windows는 직접 자식을 종료하며 별도로 이탈한 프로세스는 보장하지 않는다.
+매 실행의 명령·cwd·seed·코드 버전·시간·종료·stdout/stderr를 별도 runs/ 폴더에 보존한다. 성공 0, 자식 실패 1, 실행 오류 2, 시간 초과 124, 중단 130을 반환하며 실제 자식 종료 코드는 metadata에 남긴다. --seed는 HARNESS_SEED로 전달하므로 학습 코드에서 random/NumPy/PyTorch seed를 적용해야 한다. POSIX는 일반적인 프로세스 그룹, Windows는 직접 자식을 종료한다. 별도 세션으로 이탈한 프로세스는 따로 관리한다.
 
-실행 명령·로그는 원문 저장되므로 비밀을 넣거나 출력하지 않는다. 이 도구는 sandbox나 개인정보 제거기가 아니다. metadata의 commit만으로 dirty 변경을 복원할 수 없으므로 해당 코드도 블록 커밋으로 보존한다. 기본적으로 로그·데이터·가중치는 Git 제외이며 중요한 결과와 재현 조건은 문서에 기록한다.
+실행 명령·로그는 원문 저장되므로 비밀을 넣거나 출력하지 않는다. dirty 상태에서 실행한 코드도 블록 커밋으로 보존한다. 기본적으로 로그·데이터·가중치는 Git 제외이며 중요한 결과와 재현 조건은 문서에 기록한다.
 
 ## Git와 인계
 
@@ -146,3 +146,7 @@ git clone https://github.com/YiwonYu/ai-kit.git .
 ```
 
 파일이 있는 과제 폴더에서는 하위에 clone하고 Codex에 `ai-kit/AGENTS.md`와 `ai-kit/.agents/skills/solve/SKILL.md`를 읽으라고 명시해도 된다. 이 경우 하위 Skill이 자동 발견된다고 가정하지 않는다. 실행·양식 경로는 키트 위치를 기준으로 해석하고, 결과·계획·Git 기록은 실제 문제 프로젝트에서 관리한다. 기존 AGENTS.md나 .agents 설정을 덮어쓰지 않는다. 시험의 자료 반입·AI 허용 규칙이 우선이다.
+
+## 사용자에게 보여줄 내용
+
+보고는 현재 결론, 방법의 차이, 성능·검증 결과, 선택 이유, 다음 행동을 중심으로 짧게 정리한다. 반복되는 일반적 단서·부정 문장은 생략한다. 실제 실패·미검증·평가 조건의 차이는 관련 표에 한 번 표시하고 다음 검사를 연결한다.

@@ -171,7 +171,12 @@ def main():
              '| 검사 | 종류 | 필수 | 결과 | 판정 근거 |', '|---|---|---|---|---|']
     for check in report['checks']:
         lines.append('| ' + ' | '.join(cell(check[k]) for k in ('name', 'category', 'required', 'status', 'oracle')) + ' |')
-    lines.extend(['', '통과는 선언한 검사 범위의 근거이며 무결함이나 모든 경계 조건의 검증을 뜻하지 않는다.'])
+    counts = {status: sum(c['status'] == status for c in report['checks'])
+              for status in ('passed', 'failed', 'blocked')}
+    lines.extend(['', f"- 검사 결과: 통과 {counts['passed']} / 실패 {counts['failed']} / 차단 {counts['blocked']}"])
+    remaining = [c['name'] for c in report['checks'] if c['status'] != 'passed']
+    if remaining:
+        lines.append('- 다음 확인: ' + ', '.join(remaining))
     (run / 'report.md').write_text('\n'.join(lines) + '\n')
     print(f"verification: {report['status']}\nreport: {run / 'report.md'}")
     return 130 if interrupted else (0 if ok else 1)
