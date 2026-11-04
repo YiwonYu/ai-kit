@@ -77,6 +77,22 @@ Illustration only. Match the actual problem. Existing source layout: reuse.
 
 Short English phrases. Descriptive names. Current state updates. Method and verification: enough detail for reproduction. History: Git. No separate HANDOFF, SUBMISSION, METHOD, DECISION or EXPERIMENTS documents.
 
+## Smallest reviewable steps
+
+One sub-block: one behavior, one observable result, its own tests. Split independent behavior into sibling folders.
+
+Login example:
+- Login form → visible username/password fields
+- Input checks → missing-field messages
+- Credential lookup → matching account or missing-account result
+- Password verification → accepted/rejected credentials
+- Session creation → valid session
+- Logout → invalidated session
+
+Before implementation: exact files/functions, field types, output/error schema, ordered steps, example values, test commands, expected results and acceptance checks. Expand method and verification details in SUB_BLOCK.md. Keep PLAN as the linked overview.
+
+After each sub-block: checkbox update, actual tests, inspection command, commit and review. Default: wait for the user's next permission. Grouped approval: preserve a separate report for each sub-block.
+
 ## Checkboxes
 
 - [ ] Implementation: concrete output

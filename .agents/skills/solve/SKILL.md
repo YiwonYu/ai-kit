@@ -15,6 +15,9 @@ description: Plan research or service tasks as blocks and sub-blocks; wait for a
 ## Plan
 - templates/PLAN.md: short problem summary, full block/sub-block tree, dependency order, scope, approval.
 - templates/BLOCK.md and SUB_BLOCK.md: one document per block/sub-block, descriptive folder names.
+- Decompose every feature into the smallest independently testable behavior. One folder/document per sub-block; link each in PLAN and its BLOCK.
+- Before implementation: exact files/functions, typed inputs, output/error contract, ordered steps, test data, expected values and acceptance checklist. Explain algorithm choices and verification procedures in detail.
+- If a planned sub-block still bundles independent behaviors, split it and present the revised scope before execution.
 - Each feature: separate task and check lists. One verb-led action per checkbox.
 - Replace abstract labels with concrete objects and expected outputs. Use AGENTS.md writing rules.
 - Include method, alternatives, data contracts, tests, expected results and completion criteria.
@@ -23,14 +26,14 @@ description: Plan research or service tasks as blocks and sub-blocks; wait for a
 - Present plan; stop for user review and explicit approval.
 
 ## Approved scope
-1. Announce current sub-block, tasks, tests.
+1. Present the detailed current sub-block plan, tasks and tests. Resolve open decisions; confirm the applicable user approval.
 2. Implement approved checklist items; purpose/Args/Returns docstring per function.
 3. Test normal/error/boundary paths against independent expected values. Add regression and actual integration checks.
 4. Execute runner/verification pipeline; keep original evidence under runs/.
 5. Update the same block/sub-block document: implementation ticks, verification ticks, command, fixture, expected/actual result, logs, code revision, next action.
 6. Alternative methods: local method/performance tables. Selection/rejection reasons: same relevant document.
 7. Parent checklist: update after child and integration completion. PLAN: current summary only.
-8. Commit relevant code/tests/block documents; report results and commit. Stop when approved scope ends.
+8. Commit relevant code/tests/block documents. Report this sub-block: changed behavior, test results, inspection command and next part. Default: stop for user review; grouped approval: continue only within that scope.
 
 ## Continuity
 - Read PLAN and active block documents; inspect real code/logs/Git.

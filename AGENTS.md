@@ -13,6 +13,13 @@
 - Progress: user commands and approved scope. No time allocation, timed stages or submission phase.
 
 ## Blocks
+- Sub-block: smallest independently implementable, testable and reviewable behavior.
+- Split a sub-block when it contains multiple outputs, interfaces, responsibilities or independent tests. Give each part its own folder and SUB_BLOCK.md.
+- Example authentication parts: login form, input validation, credential lookup, password verification, session creation, logout. Each part: separate sub-block.
+- Complete detailed sub-block plans before implementation. Include exact files/functions, input types, output schema, steps, error paths, test fixtures, expected values and acceptance criteria.
+- Separate facts, approved policies and open decisions. Resolve behavior-changing questions before implementing the affected part.
+- Keep every sub-block linked in PLAN and its parent BLOCK. Record dependencies and the next review point.
+- Default checkpoint: one sub-block result, test evidence and user review before the next. Explicit grouped approval: still report each sub-block separately.
 - Each document: concrete implementation and verification checkboxes.
 - Before work: purpose, inputs/outputs, tasks, method and expected tests.
 - During work: tick completed tasks; attach commands, observed results, code/config/fixture references.

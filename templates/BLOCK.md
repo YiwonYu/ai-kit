@@ -8,11 +8,14 @@
 - Source paths:
 - Approved scope:
 
-## Tasks
-- [ ] Complete [named feature](child/SUB_BLOCK.md)
+## Sub-blocks
+| Order | Single behavior / document | Dependency | Observable result | Review status |
+|---|---|---|---|---|
+
+- [ ] Complete [single behavior](child/SUB_BLOCK.md)
 - [ ] Connect child outputs
 
-Replace examples with actual features. One action per checkbox.
+List every smallest reviewable behavior. Match PLAN links. Split child documents with multiple responsibilities. Record a review point after each child.
 
 ## Method
 1. Describe the input flow.

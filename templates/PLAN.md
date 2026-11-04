@@ -9,28 +9,42 @@
 
 ## Blocks
 
-- [ ] [Web](blocks/web/BLOCK.md) — worker/admin views
-  - [ ] [Login](blocks/web/login/SUB_BLOCK.md) — credentials; session
-  - [ ] [Admin](blocks/web/admin/SUB_BLOCK.md) — CSV upload; all routes
-  - [ ] [Worker](blocks/web/worker/SUB_BLOCK.md) — assigned route
+- [ ] [Web](blocks/web/BLOCK.md) — user views
+  - [ ] [Login form](blocks/web/login-form/SUB_BLOCK.md) — show credentials form
+  - [ ] [Login input checks](blocks/web/login-input/SUB_BLOCK.md) — show field errors
+  - [ ] [CSV upload](blocks/web/csv-upload/SUB_BLOCK.md) — send roster file
+  - [ ] [Admin route list](blocks/web/admin-list/SUB_BLOCK.md) — show all routes
+  - [ ] [Worker route view](blocks/web/worker-view/SUB_BLOCK.md) — show assigned route
 - [ ] [Routing](blocks/routing/BLOCK.md) — calculate bus routes
-  - [ ] [Data checks](blocks/routing/data-checks/SUB_BLOCK.md) — check coordinates and worker coverage
-  - [ ] [Nearest stop](blocks/routing/nearest-stop/SUB_BLOCK.md) — assign the nearest stop
-  - [ ] [Capacity-aware](blocks/routing/capacity-aware/SUB_BLOCK.md) — group workers within bus capacity
-  - [ ] [Selected route](blocks/routing/selected-route/SUB_BLOCK.md) — save selected routes
-- [ ] [Database](blocks/database/BLOCK.md) — store source records
-  - [ ] [CSV import](blocks/database/csv-import/SUB_BLOCK.md) — validation; transaction
-- [ ] [API](blocks/api/BLOCK.md) — access; export
-  - [ ] [Login](blocks/api/login/SUB_BLOCK.md) — authentication
-  - [ ] [Admin routes](blocks/api/admin-routes/SUB_BLOCK.md) — all routes
-  - [ ] [Worker route](blocks/api/worker-route/SUB_BLOCK.md) — own route
-  - [ ] [JSON export](blocks/api/json-export/SUB_BLOCK.md) — route schema
+  - [ ] [Coordinate checks](blocks/routing/coordinates/SUB_BLOCK.md) — reject invalid coordinates
+  - [ ] [Stop candidates](blocks/routing/stop-candidates/SUB_BLOCK.md) — find walkable stops
+  - [ ] [Baseline assignment](blocks/routing/baseline/SUB_BLOCK.md) — assign nearest stop
+  - [ ] [Capacity grouping](blocks/routing/capacity/SUB_BLOCK.md) — enforce passenger limit
+  - [ ] [Stop ordering](blocks/routing/stop-order/SUB_BLOCK.md) — compare visit sequences
+  - [ ] [Route audit](blocks/routing/audit/SUB_BLOCK.md) — check assignment constraints
+  - [ ] [Route save](blocks/routing/save/SUB_BLOCK.md) — store selected routes
+- [ ] [Database](blocks/database/BLOCK.md) — import source records
+  - [ ] [CSV headers](blocks/database/headers/SUB_BLOCK.md) — check required columns
+  - [ ] [CSV row values](blocks/database/row-values/SUB_BLOCK.md) — check required fields
+  - [ ] [Worker identity](blocks/database/identity/SUB_BLOCK.md) — detect duplicate identifiers
+  - [ ] [Record mapping](blocks/database/mapping/SUB_BLOCK.md) — map source fields
+  - [ ] [Import transaction](blocks/database/transaction/SUB_BLOCK.md) — save or roll back
+- [ ] [API](blocks/api/BLOCK.md) — access and export
+  - [ ] [Credential lookup](blocks/api/credential-lookup/SUB_BLOCK.md) — find account
+  - [ ] [Password verification](blocks/api/password-check/SUB_BLOCK.md) — verify password
+  - [ ] [Session creation](blocks/api/session/SUB_BLOCK.md) — issue session
+  - [ ] [Logout](blocks/api/logout/SUB_BLOCK.md) — invalidate session
+  - [ ] [Admin access](blocks/api/admin-access/SUB_BLOCK.md) — enforce admin role
+  - [ ] [Worker access](blocks/api/worker-access/SUB_BLOCK.md) — restrict own records
+  - [ ] [JSON export](blocks/api/json-export/SUB_BLOCK.md) — serialize approved schema
 
-Example tree: replace for actual problem. Create every linked block/sub-block document during planning. All boxes initially unchecked.
+Example only. Match the actual problem. Add missing behaviors and split remaining bundles. Create one document per linked block/sub-block. All boxes initially unchecked.
 
 ## Execution
-- Dependencies:
+- Dependency order:
 - Current block / sub-block:
-- Completion / stop condition:
-- Plan version / user approval / approved scope:
-- Next action / approval point:
+- Plan version / actual approval / approved scope:
+- Current review point:
+- Next action / permission:
+
+Each sub-block: detailed contract, files/functions, steps, method, checks and acceptance. Default: implement one sub-block; show evidence; wait for user review. Grouped approval: report each result separately.
