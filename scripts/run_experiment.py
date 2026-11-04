@@ -14,11 +14,32 @@ import uuid
 
 
 def utc_now():
+    '''Format current UTC time.
+
+    Args:
+        None. Uses enclosing state or CLI arguments.
+    Returns:
+        ISO 8601 timestamp string.
+    '''
     return datetime.now(timezone.utc).isoformat()
 
 
 def git_info(cwd):
+    '''Read repository revision and working-tree state.
+
+    Args:
+        cwd: Directory for Git inspection.
+    Returns:
+        Mapping with commit hash and dirty flag; None when unavailable.
+    '''
     def query(args):
+        '''Read one Git query.
+
+        Args:
+            args: Git subcommand and arguments.
+        Returns:
+            Stripped output, or None on failure.
+        '''
         try:
             return subprocess.check_output(['git', *args], cwd=cwd,
                 stderr=subprocess.DEVNULL, text=True, timeout=3).strip()
@@ -30,6 +51,13 @@ def git_info(cwd):
 
 
 def stop(proc):
+    '''Terminate an experiment and wait for exit.
+
+    Args:
+        proc: Running Popen process; POSIX group or Windows child.
+    Returns:
+        None. The process is terminated and reaped.
+    '''
     try:
         if os.name == 'posix':
             os.killpg(proc.pid, signal.SIGKILL)
@@ -41,6 +69,13 @@ def stop(proc):
 
 
 def main():
+    '''Run a command with timeout, seed and evidence capture.
+
+    Args:
+        None. Uses enclosing state or CLI arguments.
+    Returns:
+        CLI exit code; logs and metadata written under the run directory.
+    '''
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--name', default='experiment')
     p.add_argument('--timeout', type=float, required=True, help='positive seconds')
@@ -68,6 +103,13 @@ def main():
             'status': 'running', 'git': git_info(cwd)}
     path = run_dir / 'metadata.json'
     def save():
+        '''Persist the current run metadata atomically.
+
+        Args:
+            None. Uses enclosing state or CLI arguments.
+        Returns:
+            None. Writes the enclosing metadata to metadata.json.
+        '''
         temp = path.with_suffix('.tmp')
         temp.write_text(json.dumps(meta, ensure_ascii=False, indent=2) + '\n')
         temp.replace(path)

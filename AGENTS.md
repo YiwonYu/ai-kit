@@ -1,44 +1,49 @@
-# 작업 원칙
+# Workflow
 
-## 사람이 읽는 현재 상태
-- PLAN.md는 문제 설명, 현재 목표·범위, 채택한 구조, 단계별 의존성과 승인 범위만 짧게 유지한다. 날짜별 추가 기록을 쌓지 말고 해당 항목을 갱신한다.
-- methods 탐색, DB, web 등 독립적인 목표·검증·승인이 필요한 작업은 plans/ 아래 설명적인 이름의 세부 계획으로 분리한다. 같은 계획을 중복 복사하지 않는다.
-- HANDOFF.md는 현재 상태·막힌 점·실행 명령·다음 허락만 한 화면 수준으로 갱신한다. 과거 이력은 Git과 decisions/에 둔다.
-- EXPERIMENTS.md는 정확히 두 개의 주요 표로 유지한다: 방법 설명표와 성능 비교표. 방법 이름은 뜻이 드러나는 전체 이름을 사용한다. A1/A2/N1 같은 약어만으로 설명하지 않는다.
-- 새 실험은 기존 표의 해당 행을 갱신하거나 비교할 설정의 행을 추가한다. 날짜별 섹션과 실행 로그를 누적하지 않는다. 다른 데이터·분할·metric·예산의 결과는 직접 비교하지 않는다.
-- 상세 방법·코드·설정·실험·블록 작업·test 결과는 methods/<설명적인-이름>/METHOD.md, RESULTS.md, 설정 파일과 로그로 관리한다. DB·web 작업은 해당 세부 계획과 tests/에 기록하고 EXPERIMENTS에 연구 방법으로 억지로 넣지 않는다.
-- 채택·보류·폐기는 DECISIONS.md의 현재 결정표와 decisions/<주제>.md의 근거·대안·증거·Git 참조로 관리한다. 수정 이력은 Git에 맡기고 현재 문서에 덧붙이지 않는다. 실행 증거는 삭제·덮어쓰지 않는다.
+## Plan
+- Read problem, source, environment, rules.
+- Short English phrases in Markdown. Detailed method and verification where needed.
+- PLAN.md: problem; named block/sub-block tree; dependencies; current approval.
+- Each block: blocks/<name>/BLOCK.md. Each sub-block: blocks/<name>/<name>/SUB_BLOCK.md.
+- Before approval: read-only inspection, root guidance/Skill connections, planning documents.
+- Present plan; wait for explicit approval. Revisions: update plan, then approval.
+- Default scope: one sub-block. Explicit multi-block approval: that scope only.
+- Significant goal, structure, data, metric changes: revised plan and approval.
 
-## 초기 설정과 문제별 하네스
-- 사용자가 대상 폴더 초기 설정을 요청하면 공통 AGENTS 지침·solve 연결과 검토용 문서는 계획 승인 전에 준비할 수 있다. 기존 파일은 보존하며 키트의 scripts/·templates/·.git를 이동하지 않는다.
-- 문제별 실행·DB·web·평가 코드, verification.json 작성과 테스트·실험은 계획 승인 후 허용 범위에서 구성한다. 초기 설정 허락을 실험 허락으로 해석하지 않는다.
-- 별도 대상 폴더에 연결할 때 원본 지침·Skill·도구의 실제 상대 경로를 기록하고 후속 요청에도 공통 규칙을 유지하도록 루트에 명시한다. 자세한 절차는 solve Skill의 작업 폴더 연결 항목을 따른다.
+- Progress: user commands and approved scope. No time allocation, timed stages or submission phase.
 
-## 계획·승인·블록
-- 원문·기존 코드·환경·시험 규정을 읽고 문제를 쉬운 말로 설명한다. 목표, 제약, baseline·대안, 구조, 실험, 최소 하네스, 문제별 검증과 예상 비용을 제안한다.
-- 승인 전에는 읽기 전용 확인과 계획·검토용 문서 작성만 한다. 구현·설치·실험·테스트 실행은 금지한다. 사용자가 수정한 계획 버전과 명시적 실행 범위를 확인하고 시작한다. 침묵·수정 요청을 승인으로 간주하지 않는다.
-- 기본 실행 단위는 의미 있는 이름을 가진 블록 하나이다. 여러 블록의 명시적 승인이 있으면 그 범위까지만 진행한다. 블록 시작 전 작업·입출력·tests·예상 결과를 해당 세부 계획에 기록하고 알린다.
-- 종료 후 실제 변경·명령·metric·소요 시간·로그·실패·미검증·사용자 판단을 해당 methods 기록 또는 세부 계획에 기록하고 요약표·현재 문서를 갱신한다. 결과와 commit을 보고하고 다음 허락을 기다린다.
-- 목표·구조·데이터·평가·예산의 큰 변경은 계획 수정과 재승인을 거친다. 국소 오류 수정은 승인 범위에서 수행한다. 마지막 20%는 검증과 제출에 남긴다.
+## Blocks
+- Each document: concrete implementation and verification checkboxes.
+- Before work: purpose, inputs/outputs, tasks, method and expected tests.
+- During work: tick completed tasks; attach commands, observed results, code/config/fixture references.
+- Verification ticks: actual passing results only. Failures/pending: local status plus next action.
+- Parent completion: child implementation/verification plus block integration tests.
+- Algorithm alternatives: relevant routing/research block; descriptive method names, method/performance tables; detailed comparison inside child documents.
+- Selected/rejected approach and reason: relevant block document. History: Git.
+- Current state updates. No dated appendices or abbreviation-only descriptions.
+- No separate HANDOFF.md, SUBMISSION.md, METHOD.md, DECISION.md or EXPERIMENTS.md.
+- Existing projects: preserve evidence; consolidate legacy documents with user authorization.
 
-## 자동 검증과 근거
-- verification.json에 요구사항→검사 연결과 구조·단위·통합·전체 흐름·오류·경계 검사를 정의한다. 프로젝트 규칙에 맞게 채워야 하며 키트 테스트를 서비스 검증으로 제시하지 않는다.
-- 각 검사에는 독립적인 예상값·판정 근거를 두고, 실제 연동과 mock 검사를 표시한다.
-- 변경된 블록에 필요한 검사와 단계 전환 전 전체 검증을 자동 실행한다. python scripts/verify_pipeline.py --config verification.json. 이 명령은 승인 후 실행한다.
-- 필수 검사 실패·미구현·시간 초과는 검증 실패다. 검사를 삭제·약화하거나 실패를 optional로 바꿔 통과시키지 않는다. 실행한 코드 버전·dirty 여부와 증거를 남긴다.
-- 정상·오류·경계·전체 흐름별 실제 결과와 미검증 상태를 표에 표시한다.
-- 파일 구조는 PROJECT_STRUCTURE.md와 verification.json의 structure 검사로 유지한다. 기존 구조를 우선 재사용하고 승인 없이 폴더를 재배치하지 않는다.
+## Code
+- Every function: leading triple-single-quoted docstring; purpose, Args, Returns. Include exceptions/side effects when relevant.
+- Existing source layout: reuse. New paths: agree in PLAN/block documents and structure checks.
+- APIs/DB/web contracts: explicit inputs, outputs, errors, fixtures.
 
-## Git·인계
-- 실제 문제 저장소·기존 변경을 확인한다. 키트의 중첩 저장소와 혼동하지 않는다. 저장소가 없으면 작업 폴더에서 초기화하되 상위 저장소 영향을 확인한다.
-- 승인 계획과 블록별 코드·검증·현재 문서를 의미 있는 로컬 커밋으로 남긴다. 필요한 경로만 stage하고 staged diff를 검토한다. 기존 사용자 변경을 섞지 않는다.
-- 실행 code commit과 결과 기록 commit을 구분한다. 자신의 hash를 자기 커밋에 넣으려 하지 않는다. 완료 hash는 사용자에게 보고하고 이후 인계에 참조한다.
-- 비밀·시험 데이터·대형 로그·가중치는 커밋하지 않는다. push는 별도 요청 때만 한다. Git 기록 실패를 숨기지 않는다. 전역 설정 변경·이력 삭제·강제 push는 하지 않는다.
-- 새 세션은 짧은 PLAN·HANDOFF·두 실험표·현재 결정표를 먼저 읽고 필요할 때만 세부 파일·Git을 읽는다. 실제 승인 근거가 불명확하면 실행하지 않는다.
-- 이전 누적 문서는 승인 후 보존·이관하고 링크를 남긴다. 근거를 버리지 않는다. API 키는 환경 변수로 받으며 병렬 에이전트는 기본 사용하지 않는다.
+## Verification
+- Approved checks: verification.json; requirement-to-check mapping; independent expected values.
+- Structure, unit, integration, e2e, error and boundary checks as applicable.
+- Tests and block documents: same feature names and reproducible commands.
+- After approved changes: run relevant checks; before block completion: integration and regression checks.
+- Required failure, pending or timeout: incomplete verification checkbox.
+- Logs: unique run paths; config, seed, code revision, dirty state, elapsed time.
+- Real vs mocked dependencies: label. Secrets: environment variables; redact outputs. Test DB: isolated.
 
-## 보고 형식
-- 사람이 보고 싶은 현재 결론, 방법 간 차이, 성능·검증 결과, 선택 이유, 다음 행동을 우선 정리한다.
-- 결과를 부정하는 상투적인 단서와 반복 경고를 덧붙이지 않는다. “이것만으로 판정할 수 없다”, “무결함 보장은 아니다” 같은 일반론을 매 보고마다 반복하지 않는다.
-- 판단에 영향을 주는 실제 실패·미검증·조건 차이는 관련 표의 상태·조건 칸에 한 번만 적고 필요한 다음 검사를 제시한다. 결과를 숨기거나 추정값을 실측값으로 바꾸지 않는다.
-- 기본 보고는 현재 결론 → 결과표/검증 요약 → 다음 결정·작업이다. 상세 로그와 일반 설명은 링크로 분리한다.
+## Git and continuity
+- Actual target repository: inspect root/status; preserve user changes. Keep kit repository separate when nested.
+- Approved plan; sub-block code/tests/docs: local commits. Stage explicit paths; review staged diff.
+- No secrets, sensitive data, weights or large logs in commits. Push only when requested.
+- Report completed commit; reference previous code revisions in documents. No self-hash requirement.
+- New session: PLAN → current BLOCK → current SUB_BLOCK → tests/logs/Git as needed.
+- End of scope: update checklists; report result/tests/commit/next action; wait for next approval.
+- Reports: brief current results. Actual failures/pending conditions: once, beside affected feature.
+- Parallel agents: only on explicit request.

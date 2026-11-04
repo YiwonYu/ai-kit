@@ -1,5 +1,5 @@
 {
-  "scope": "실제 문제에 맞춰 수정할 미완성 검증 초안. 모든 pending 검사는 실패로 처리된다.",
+  "scope": "Project checks: fill after plan approval.",
   "required_categories": [
     "structure",
     "unit",
@@ -10,7 +10,7 @@
   ],
   "requirements": [
     {
-      "id": "실제 요구사항으로 교체",
+      "id": "Replace with project requirement",
       "checks": [
         "structure",
         "unit",
@@ -24,57 +24,57 @@
   "checks": [
     {
       "id": "structure",
-      "name": "승인된 파일 구조",
+      "name": "Approved file layout",
       "category": "structure",
       "required": true,
       "pending": true,
-      "reason": "계획 승인 후 실제 프로젝트용 검사로 구현해야 한다.",
-      "oracle": "필수 경로·파일 종류가 구조 계약과 일치한다."
+      "reason": "Implement project-specific check after plan approval.",
+      "oracle": "Required paths and types match the approved layout."
     },
     {
       "id": "unit",
-      "name": "핵심 계산·처리의 정답",
+      "name": "Core behavior",
       "category": "unit",
       "required": true,
       "pending": true,
-      "reason": "계획 승인 후 실제 프로젝트용 검사로 구현해야 한다.",
-      "oracle": "문제에서 유도한 독립적인 정답·fixture와 비교한다."
+      "reason": "Implement project-specific check after plan approval.",
+      "oracle": "Compare with independently defined expected values."
     },
     {
       "id": "integration",
-      "name": "블록 간 데이터 전달",
+      "name": "Block data contracts",
       "category": "integration",
       "required": true,
       "pending": true,
-      "reason": "계획 승인 후 실제 프로젝트용 검사로 구현해야 한다.",
-      "oracle": "입출력 계약과 실제 전달 값이 일치한다."
+      "reason": "Implement project-specific check after plan approval.",
+      "oracle": "Verify actual values across block interfaces."
     },
     {
       "id": "e2e",
-      "name": "입력부터 DB 저장·조회 및 웹 결과까지",
+      "name": "Input-to-output flow",
       "category": "e2e",
       "required": true,
       "pending": true,
-      "reason": "계획 승인 후 실제 프로젝트용 검사로 구현해야 한다.",
-      "oracle": "대표 입력이 실제 전체 경로를 지나 기대한 저장·조회·표시 결과를 낸다."
+      "reason": "Implement project-specific check after plan approval.",
+      "oracle": "Verify representative input through actual storage, retrieval and display."
     },
     {
       "id": "negative",
-      "name": "잘못된 입력·연동 실패 처리",
+      "name": "Invalid input and dependency errors",
       "category": "negative",
       "required": true,
       "pending": true,
-      "reason": "계획 승인 후 실제 프로젝트용 검사로 구현해야 한다.",
-      "oracle": "명세에서 정한 실패 응답·데이터 보존·복구를 확인한다."
+      "reason": "Implement project-specific check after plan approval.",
+      "oracle": "Verify specified error responses, preservation and recovery."
     },
     {
       "id": "boundary",
-      "name": "최솟값·최댓값·빈 입력 등의 경계",
+      "name": "Boundary conditions",
       "category": "boundary",
       "required": true,
       "pending": true,
-      "reason": "계획 승인 후 실제 프로젝트용 검사로 구현해야 한다.",
-      "oracle": "문제별 경계 입력의 예상 결과를 정의하고 비교한다."
+      "reason": "Implement project-specific check after plan approval.",
+      "oracle": "Compare minimum, maximum and empty inputs with defined expectations."
     }
   ]
 }

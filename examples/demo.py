@@ -1,4 +1,4 @@
-"""검증용 예제"""
+"""Verification example."""
 import argparse
 import os
 import random

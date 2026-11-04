@@ -1,34 +1,34 @@
-# 현재 실행 계획
+# Plan
 
-이 파일은 최신 상태만 유지한다. 날짜별 추가사항·완료 이력·긴 실험 설명은 넣지 않는다. 전체를 약 60줄 이내로 유지하고 세부 계획·결정·방법을 링크한다.
+## Problem
+- Goal:
+- Input → output:
+- Constraints / metric:
 
-## 문제 설명
-- 무엇이 주어지고 무엇을 구하는가:
-- 입력 → 처리 → 출력 예시:
-- 핵심 난점·성공 기준:
+## Blocks
 
-## 현재 목표·제약
-- 고정 조건·평가·제출·마감:
-- 범위 / 제외 범위:
-- 현재 채택 방향·구조와 이유: [현재 결정](DECISIONS.md)
+- [ ] [Web](blocks/web/BLOCK.md) — worker/admin views
+  - [ ] [Login](blocks/web/login/SUB_BLOCK.md) — credentials; session
+  - [ ] [Admin](blocks/web/admin/SUB_BLOCK.md) — CSV upload; all routes
+  - [ ] [Worker](blocks/web/worker/SUB_BLOCK.md) — assigned route
+- [ ] [Routing](blocks/routing/BLOCK.md) — route selection
+  - [ ] [Data checks](blocks/routing/data-checks/SUB_BLOCK.md) — coordinates; coverage
+  - [ ] [Nearest stop](blocks/routing/nearest-stop/SUB_BLOCK.md) — baseline
+  - [ ] [Capacity-aware](blocks/routing/capacity-aware/SUB_BLOCK.md) — candidate
+  - [ ] [Selected route](blocks/routing/selected-route/SUB_BLOCK.md) — DB update
+- [ ] [Database](blocks/database/BLOCK.md) — integrated records
+  - [ ] [CSV import](blocks/database/csv-import/SUB_BLOCK.md) — validation; transaction
+- [ ] [API](blocks/api/BLOCK.md) — access; export
+  - [ ] [Login](blocks/api/login/SUB_BLOCK.md) — authentication
+  - [ ] [Admin routes](blocks/api/admin-routes/SUB_BLOCK.md) — all routes
+  - [ ] [Worker route](blocks/api/worker-route/SUB_BLOCK.md) — own route
+  - [ ] [JSON export](blocks/api/json-export/SUB_BLOCK.md) — route schema
 
-## 단계별 계획
-| 단계(전체 이름) | 결과물·완료 기준 | 선행 조건·입출력 계약 | 현재 상태 | 세부 계획 |
-|---|---|---|---|---|
+Example tree: replace for actual problem. Create every linked block/sub-block document during planning. All boxes initially unchecked.
 
-필요한 단계만 만든다. 예: 방법 탐색·검증 → DB 저장·조회 → 웹 핵심 흐름. 구현 순서와 병렬 가능 범위를 구분한다.
-
-## 현재 승인·다음 행동
-- 계획 버전·실제 사용자 승인 근거:
-- 승인된 단계·블록·시간 예산:
-- 지금 수행할 작업·test:
-- 다음 승인 지점·열린 질문:
-
-## 근거 위치
-- [방법과 성능의 두 표](EXPERIMENTS.md)
-- [채택·보류·폐기 결정](DECISIONS.md)
-- [파일 구조](PROJECT_STRUCTURE.md)
-- 자동 검증 설정: verification.json
-- 최신 검증 보고서:
-
-계획·검토용 문서 작성 뒤 멈춘다. 구현·설치·실험·테스트는 명시적 승인 후 수행한다.
+## Execution
+- Dependencies:
+- Current block / sub-block:
+- Completion / stop condition:
+- Plan version / user approval / approved scope:
+- Next action / approval point:

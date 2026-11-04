@@ -1,5 +1,5 @@
 {
-  "scope": "AI Kit 자체의 실행·검증 도구만 확인한다. 실제 문제·DB·웹 서비스의 검증이 아니다.",
+  "scope": "AI Kit runner, verification pipeline and documentation checks.",
   "required_categories": [
     "structure",
     "unit",
@@ -30,15 +30,25 @@
       "checks": [
         "kit-negative"
       ]
+    },
+    {
+      "id": "kit-docs",
+      "checks": [
+        "kit-docs"
+      ]
     }
   ],
   "checks": [
     {
       "id": "kit-structure",
-      "name": "키트의 필수 파일과 디렉터리",
+      "name": "Required kit files",
       "category": "structure",
-      "oracle": "공통 지침·Skill·양식·실행·검증 코드가 지정된 경로와 종류로 존재한다.",
+      "oracle": "Required files and directories match the kit layout.",
       "paths": [
+        {
+          "path": "README.md",
+          "kind": "file"
+        },
         {
           "path": "AGENTS.md",
           "kind": "file"
@@ -56,27 +66,19 @@
           "kind": "file"
         },
         {
+          "path": "scripts/check_docs.py",
+          "kind": "file"
+        },
+        {
           "path": "templates/PLAN.md",
           "kind": "file"
         },
         {
-          "path": "templates/EXPERIMENTS.md",
+          "path": "templates/BLOCK.md",
           "kind": "file"
         },
         {
-          "path": "templates/HANDOFF.md",
-          "kind": "file"
-        },
-        {
-          "path": "templates/DECISIONS.md",
-          "kind": "file"
-        },
-        {
-          "path": "templates/STAGE_PLAN.md",
-          "kind": "file"
-        },
-        {
-          "path": "templates/PROJECT_STRUCTURE.md",
+          "path": "templates/SUB_BLOCK.md",
           "kind": "file"
         },
         {
@@ -91,9 +93,9 @@
     },
     {
       "id": "kit-unit",
-      "name": "실행·검증 도구의 회귀 검사",
+      "name": "Runner and verification regression tests",
       "category": "unit",
-      "oracle": "unittest의 독립적인 정상·실패·시간초과·판정 검사들이 통과한다. 서비스의 정확성은 검사하지 않는다.",
+      "oracle": "Independent assertions validate success, failure, timeouts and reporting.",
       "command": [
         "{python}",
         "-m",
@@ -107,9 +109,9 @@
     },
     {
       "id": "kit-smoke",
-      "name": "예제의 실행부터 로그 저장까지",
+      "name": "Example command execution",
       "category": "e2e",
-      "oracle": "예제 명령이 정상 종료한다. 로그 내용 검사는 회귀 테스트에서 확인한다.",
+      "oracle": "Example command exits successfully; regression tests inspect log content.",
       "command": [
         "{python}",
         "examples/demo.py",
@@ -120,9 +122,9 @@
     },
     {
       "id": "kit-negative",
-      "name": "의도한 오류의 종료 코드 보존",
+      "name": "Expected error exit code",
       "category": "negative",
-      "oracle": "실패 예제가 의도한 종료 코드 7을 반환한다.",
+      "oracle": "Failure example returns exit code 7.",
       "command": [
         "{python}",
         "examples/demo.py",
@@ -130,6 +132,17 @@
         "fail"
       ],
       "expected_exit": 7,
+      "timeout": 10
+    },
+    {
+      "id": "kit-docs",
+      "name": "English documents and function docstrings",
+      "category": "other",
+      "oracle": "Tracked text is English; every function has a leading triple-single-quoted purpose/Args/Returns docstring.",
+      "command": [
+        "{python}",
+        "scripts/check_docs.py"
+      ],
       "timeout": 10
     }
   ]

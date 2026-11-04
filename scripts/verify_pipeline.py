@@ -15,6 +15,13 @@ CATEGORIES = {'structure', 'unit', 'integration', 'e2e', 'negative', 'boundary',
 
 
 def load_config(path):
+    '''Load and validate verification requirements and checks.
+
+    Args:
+        path: JSON verification configuration path.
+    Returns:
+        Validated configuration mapping. Raises ValueError for invalid declarations.
+    '''
     config = json.loads(path.read_text())
     if not isinstance(config, dict) or not isinstance(config.get('scope'), str) or not config['scope'].strip():
         raise ValueError('scope must explain what this suite actually verifies')
@@ -82,6 +89,14 @@ def load_config(path):
 
 
 def structure_result(root, check):
+    '''Compare required project paths with the layout contract.
+
+    Args:
+        root: Resolved project root.
+        check: Structure check with relative paths and expected kinds.
+    Returns:
+        Status and a list of missing, mismatched or external paths.
+    '''
     details = []
     for entry in check['paths']:
         target = (root / entry['path']).resolve()
@@ -93,6 +108,15 @@ def structure_result(root, check):
 
 
 def execute(root, check, folder):
+    '''Execute one check and collect its evidence.
+
+    Args:
+        root: Resolved project working directory.
+        check: Validated check declaration.
+        folder: Unique directory for this check evidence.
+    Returns:
+        Status, command result and log paths; blocked for pending checks.
+    '''
     if check.get('pending'):
         return {'status': 'blocked', 'details': ['test not implemented: ' + check.get('reason', 'pending')]}
     if check['category'] == 'structure':
@@ -120,6 +144,13 @@ def execute(root, check, folder):
 
 
 def main():
+    '''Run the declared verification suite and write reports.
+
+    Args:
+        None. Uses enclosing state or CLI arguments.
+    Returns:
+        CLI exit code; JSON/Markdown reports and logs under the output directory.
+    '''
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config', type=Path, default=Path('verification.json'))
     parser.add_argument('--root', type=Path, default=Path.cwd())
@@ -141,6 +172,13 @@ def main():
               'started_at': datetime.now(timezone.utc).isoformat(), 'git': git_info(root),
               'status': 'running', 'requirements': config['requirements'], 'checks': []}
     def save():
+        '''Write the current verification report atomically.
+
+        Args:
+            None. Uses enclosing state or CLI arguments.
+        Returns:
+            None. Updates report.json in the enclosing run directory.
+        '''
         path = run / 'report.json'
         temp = path.with_suffix('.tmp')
         temp.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
@@ -164,19 +202,26 @@ def main():
     report.update(status='passed' if ok else 'failed', ended_at=datetime.now(timezone.utc).isoformat())
     save()
     def cell(value):
+        '''Escape a value for a Markdown table cell.
+
+        Args:
+            value: Object to render as text.
+        Returns:
+            Single-line string with escaped table separators.
+        '''
         return str(value).replace('|', '\\|').replace('\n', ' ')
-    lines = ['# 검증 보고서', '', f"- 범위: {config['scope']}",
-             f"- 결과: {report['status']}", f"- 코드: {report['git']}",
-             '- 근거: 같은 폴더의 report.json, config.json 및 실행 로그', '',
-             '| 검사 | 종류 | 필수 | 결과 | 판정 근거 |', '|---|---|---|---|---|']
+    lines = ['# Verification', '', f"- Scope: {config['scope']}",
+             f"- Result: {report['status']}", f"- Code: {report['git']}",
+             '- Evidence: report.json, config.json and execution logs', '',
+             '| Check | Category | Required | Result | Oracle |', '|---|---|---|---|---|']
     for check in report['checks']:
         lines.append('| ' + ' | '.join(cell(check[k]) for k in ('name', 'category', 'required', 'status', 'oracle')) + ' |')
     counts = {status: sum(c['status'] == status for c in report['checks'])
               for status in ('passed', 'failed', 'blocked')}
-    lines.extend(['', f"- 검사 결과: 통과 {counts['passed']} / 실패 {counts['failed']} / 차단 {counts['blocked']}"])
+    lines.extend(['', f"- Checks: passed {counts['passed']} / failed {counts['failed']} / blocked {counts['blocked']}"])
     remaining = [c['name'] for c in report['checks'] if c['status'] != 'passed']
     if remaining:
-        lines.append('- 다음 확인: ' + ', '.join(remaining))
+        lines.append('- Next checks: ' + ', '.join(remaining))
     (run / 'report.md').write_text('\n'.join(lines) + '\n')
     print(f"verification: {report['status']}\nreport: {run / 'report.md'}")
     return 130 if interrupted else (0 if ok else 1)

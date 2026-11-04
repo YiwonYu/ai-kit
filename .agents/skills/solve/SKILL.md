@@ -1,38 +1,38 @@
 ---
 name: solve
-description: 연구·알고리즘·서비스 과제에서 문제 설명과 단계별 계획을 먼저 제안하고, 사용자 승인 후 블록별 구현·실험·자동 검증·Git 기록을 진행한다. 일반 질문이나 단순 수정에는 사용하지 않는다.
+description: Plan research or service tasks as blocks and sub-blocks; wait for approval; implement, verify, update checklists and commit each approved scope.
 ---
 
-# 현재 상태 중심의 계획 승인형 문제 풀이
+# Solve
 
-## 작업 폴더 연결 — 사용자가 초기 설정을 요청한 경우
-- 사용자가 “폴더/에 solve를 연결해라”, “README대로 초기 설정해라”, “README.md와 Prob.md를 읽고 진행해줘”처럼 요청하면 먼저 대상 작업 폴더와 키트의 실제 경로를 확인한다. 셸의 cd만으로 이미 시작한 Codex 세션의 루트가 영구 변경된다고 가정하지 않는다. 파일 작업·명령의 cwd는 명시한 대상 폴더로 지정한다.
-- 이 초기 설정 요청은 공통 지침·Skill 연결과 검토용 문서 준비에 대한 허락이다. 문제별 코드·검증 설정 생성, 패키지 설치, 실험 실행 허락은 아니다.
-- 대상이 키트 자체면 기존 지침·Skill을 그대로 사용한다. 별도 대상이면 루트 AGENTS.md에 키트 AGENTS.md와 solve Skill의 실제 상대 경로를 읽고 후속 요청에도 적용하라는 짧은 지침을 추가한다. 기존 지침을 보존하고 중복 추가하지 않는다.
-- 대상의 .agents/skills/solve/SKILL.md에는 키트 원본 지침·Skill을 읽도록 하는 얇은 연결 Skill(name: solve와 명확한 description 포함)을 둘 수 있다. 기존 동명 Skill은 덮어쓰지 말고 충돌을 보고한다. 연결 Skill이 자신을 재귀 참조하지 않도록 실제 원본 경로를 확인한다.
-- 키트의 scripts/·templates/·.git는 이동하지 않는다. 원본 도구·양식은 실제 키트 경로를 기준으로 참조하고 계획·결과·methods/·Git 기록은 대상 프로젝트에서 관리한다.
-- 없는 PLAN·EXPERIMENTS·DECISIONS·HANDOFF·PROJECT_STRUCTURE 등 검토용 문서는 양식을 바탕으로 준비하되 기존 문서를 덮어쓰지 않는다. 필요한 plans/ 등은 문서 작성에 필요한 만큼만 만든다.
-- 현재 세션에서는 연결한 지침을 직접 읽고 적용한다. 새 Skill의 UI 표시나 자동 로딩을 가정하지 말고 새 세션은 대상 폴더에서 시작하도록 사용법을 안내한다. 대상과 키트의 연결 경로·만든 파일을 보고한 뒤 문제 계획 작성으로 이어간다.
+## Setup
+- Read README.md, AGENTS.md, Prob.md and existing code.
+- Target: Prob.md parent or user-specified folder.
+- Separate target: preserve root guidance; add original kit rule/Skill links and a local solve wrapper with actual relative paths. Avoid duplicate links, overwrites and self-reference.
+- Keep kit scripts/templates/.git in place. Commands: explicit target cwd and kit paths.
+- Initial setup: guidance and planning documents only.
 
-## 문제 이해와 계획 제안
-1. 원문·기존 코드·환경·규칙을 읽기 전용으로 확인한다. 문제·입출력 예시·난점·목표를 쉽게 설명한다.
-2. templates/PLAN.md를 참고해 짧은 PLAN.md를 작성한다. 방법 탐색→DB→web처럼 결과물과 성공 기준이 다른 단계는 plans/의 세부 계획으로 나누고 전체 PLAN에는 의존성과 승인 지점만 둔다. 단계 간 데이터 계약과 대표 fixture는 일찍 설계할 수 있지만 최적 방법을 검증하기 전에 전체 DB·web 구현을 확정하지 않는다.
-3. templates/STAGE_PLAN.md로 각 단계의 접근법·구조·블록 작업·tests·예상 결과·예산을 제안한다. 계획 단계는 검토용 문서 작성만 허용하며 코드·설정 생성, 설치, 실행은 하지 않는다.
-4. 최소 하네스·파일 구조·문제별 정상/오류/경계/전체 흐름 검증을 제안한다. templates/verification.json은 문제용 검증 설정의 초안이며 pending 검사는 채워질 때까지 통과하지 않는다.
-5. PLAN과 세부 계획을 제시하고 멈춘다. 사용자 수정 요청을 반영한 후 실제 승인된 버전과 실행 블록을 기록한다. 수정 요청·침묵은 승인이 아니다.
+## Plan
+- templates/PLAN.md: short problem summary, full block/sub-block tree, dependency order, scope, approval.
+- templates/BLOCK.md and SUB_BLOCK.md: one document per block/sub-block, descriptive folder names.
+- Each feature: detailed implementation checklist and separate verification checklist.
+- Include method, alternatives, data contracts, tests, expected results and completion criteria.
+- Functional hierarchy and execution order: separate. Example: web block can appear first while database/API dependencies run first.
+- Needed harness and project checks: propose in relevant block documents.
+- Present plan; stop for user review and explicit approval.
 
-## 승인된 블록 실행
-1. 실제 문제 저장소와 사용자 기존 변경을 확인하고 승인 계획을 commit한다. 의미 있는 블록 이름으로 현재 작업과 검증을 알린다.
-2. 각 블록의 작업·입출력·변경 파일·예상 test 결과를 해당 세부 계획에 먼저 기록한다. 연구 방법은 methods/<설명적인-이름>/METHOD.md에 가설·수식/절차·설정·명령, RESULTS.md에 실제 실험과 블록 tests를 기록한다. templates/METHOD.md와 RESULTS.md를 참고한다.
-3. 승인 범위의 최소 구현·실험을 수행한다. 키트의 scripts/run_experiment.py 또는 기존 도구로 실행 증거를 보존한다.
-4. 요구사항별 독립적인 판정 기준을 가진 테스트를 작성하고 verification.json에 연결한다. 구조·단위·통합·전체 흐름·오류·경계를 적절히 포함한다. 실제 저장/조회 및 서비스 핵심 경로를 검증하고 mock 범위를 밝힌다.
-5. scripts/verify_pipeline.py로 관련 검증을 실행한다. 파이프라인에는 필수 검사 누락·pending·실패·timeout이 남으면 안 된다. tests 자체가 적절한지는 별도 검토하며 구현을 그대로 반복하는 기대값을 쓰지 않는다.
-6. EXPERIMENTS.md의 두 표를 제자리 갱신한다. 표1은 방법의 전체 이름·차이·상태·상세 링크, 표2는 동일 조건의 성능·비용·근거다. 새 날짜 섹션, 약어만 있는 이름, 결과 로그의 무한 누적은 금지한다. 다른 설정·seed·데이터 결과는 상세 기록에 보존하고 대표값의 선정 규칙을 설명한다.
-7. 채택·보류·폐기 결정을 DECISIONS.md와 decisions/<주제>.md에 갱신한다. PLAN과 HANDOFF는 최신 요약으로 덮어 갱신하고 과거 이력은 Git에 보존한다.
-8. 해당 블록의 코드·test·문서만 stage하여 commit하고 작업·검증·선택 이유·미검증·commit을 보고한다. 다음 승인 범위가 없으면 멈춘다.
+## Approved scope
+1. Announce current sub-block, tasks, tests.
+2. Implement approved checklist items; purpose/Args/Returns docstring per function.
+3. Test normal/error/boundary paths against independent expected values. Add regression and actual integration checks.
+4. Execute runner/verification pipeline; keep original evidence under runs/.
+5. Update the same block/sub-block document: implementation ticks, verification ticks, command, fixture, expected/actual result, logs, code revision, next action.
+6. Alternative methods: local method/performance tables. Selection/rejection reasons: same relevant document.
+7. Parent checklist: update after child and integration completion. PLAN: current summary only.
+8. Commit relevant code/tests/block documents; report results and commit. Stop when approved scope ends.
 
-## 변경·인계·제출
-- 큰 방향·구조·평가 변경은 계획과 결정을 수정하고 재승인을 받는다. 기존 문서 누적 문제를 정리할 때도 원문과 증거를 보존하여 이관한다.
-- 파일 구조를 유지하고 tests 추가 시 검증 설정과 구조 문서를 함께 갱신한다.
-- 새 세션에는 PLAN·HANDOFF·두 표·현재 결정표를 우선 제공한다. 상세 방법과 과거는 링크와 Git에서 찾게 한다.
-- 최종 검증은 전체 파이프라인으로 실행하고 최신 보고서를 SUBMISSION에 연결한다. 핵심 동작, 실제 검사 결과, AI 제안을 확인·수정·유지한 이유와 다음 작업을 정리한다. 보고는 AGENTS.md의 보고 형식을 따른다.
+## Continuity
+- Read PLAN and active block documents; inspect real code/logs/Git.
+- Plan changes: update affected blocks; obtain approval for changed scope.
+- No separate handoff, submission, method, decision or experiment documents.
+- Short English labels; method and verification details sufficient for reproduction.
