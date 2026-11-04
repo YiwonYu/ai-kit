@@ -1,29 +1,43 @@
 # Block name
 
-## Scope
+## Goal
 - Purpose:
-- Input → output:
-- Dependencies / source paths:
-- Approval / scope:
+- Input:
+- Output:
+- Dependencies:
+- Source paths:
+- Approved scope:
 
-## Features
-- [ ] Sub-block: [descriptive name](child/SUB_BLOCK.md)
-- [ ] Block integration
+## Tasks
+- [ ] Complete [named feature](child/SUB_BLOCK.md)
+- [ ] Connect child outputs
+
+Replace examples with actual features. One action per checkbox.
 
 ## Method
-Describe the block's data flow, interfaces and selected approach. Explain meaningful alternatives and selection criteria. Link detailed child methods. Include a compact method/performance table here when comparing alternatives.
+1. Describe the input flow.
+2. Explain the selected approach and parameters.
+3. Explain child interfaces and dependencies.
+4. Compare meaningful alternatives and selection reasons.
 
-## Verification
-- [ ] Child implementation and tests
-- [ ] Integration / regression
+Link child details. Keep method/performance comparisons here when needed.
+
+## Checks
+- [ ] Verify child completion
+- [ ] Compare connected outputs with expected values
+- [ ] Run affected regression tests
+
+Replace examples with block-specific inputs and expected outputs.
 
 | Check | Input / fixture | Expected | Actual / status | Command / evidence |
 |---|---|---|---|---|
 
-Explain cross-child execution, independent expected values and dependency setup. Record observed output, elapsed time and relevant code/config revision. Tick integration only after execution.
+Explain fixture setup, independent expected values and cross-child execution. Record observed output and code revision. Tick checks after passing execution.
 
 ## Current
-- Choice / rejected alternatives / reason:
+- Result:
+- Selected approach / reason:
+- Rejected approach / reason:
 - Failure / pending:
 - Code revision / evidence:
 - Next action:

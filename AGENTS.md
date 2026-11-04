@@ -2,7 +2,7 @@
 
 ## Plan
 - Read problem, source, environment, rules.
-- Short English phrases in Markdown. Detailed method and verification where needed.
+- Plain English in Markdown. One concrete action per checklist item.
 - PLAN.md: problem; named block/sub-block tree; dependencies; current approval.
 - Each block: blocks/<name>/BLOCK.md. Each sub-block: blocks/<name>/<name>/SUB_BLOCK.md.
 - Before approval: read-only inspection, root guidance/Skill connections, planning documents.
@@ -47,3 +47,15 @@
 - End of scope: update checklists; report result/tests/commit/next action; wait for next approval.
 - Reports: brief current results. Actual failures/pending conditions: once, beside affected feature.
 - Parallel agents: only on explicit request.
+
+## Writing
+- Start tasks with verbs: read, find, assign, save, show, compare.
+- Name the object and observable result. Prefer short lines, usually 5–12 words.
+- Split combined actions into separate checkboxes. Avoid dense noun lists.
+- Replace generic labels such as "core behavior" or "boundary" with actual tasks and inputs.
+- Checks: concrete input plus expected output. Use numeric limits when specified by the problem.
+- Define technical terms at first use. Keep file/function names consistent.
+- PLAN: block purpose and child links. Put implementation details in the relevant SUB_BLOCK.
+- Method: ordered steps, inputs, formulas/parameters, alternatives and selection reason. Use complete explanations where needed.
+- Verification: fixture, independent expected result, command, observed result and evidence. Explain how the check works.
+- Review readability before reporting: one action per line; specific checks; current result and next action.

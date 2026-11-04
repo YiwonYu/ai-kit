@@ -84,6 +84,26 @@ Short English phrases. Descriptive names. Current state updates. Method and veri
 
 Mark implementation after code inspection/execution; mark verification after observed passing results. Parent completion: child checks plus integration checks. Record failures and pending checks beside the affected feature. Store comparisons inside the relevant block: method table; performance table.
 
+## Writing
+
+Plain English. One action per checkbox. Short task lines; detailed method and verification.
+
+```markdown
+## Tasks
+- [ ] Find stops within walking distance
+- [ ] Assign workers to buses
+- [ ] Check bus capacity
+- [ ] Check arrival times
+- [ ] Improve stop order
+
+## Checks
+- [ ] Each working employee: assignment or reason
+- [ ] Passengers per bus: within configured capacity
+- [ ] Arrival: within each employee's allowed window
+```
+
+Use actual problem limits. Explain algorithm steps and test procedures in their own sections. PLAN: short overview; SUB_BLOCK: details.
+
 ## Functions
 
 Every function, including nested helpers and tests: leading triple-single-quoted docstring.

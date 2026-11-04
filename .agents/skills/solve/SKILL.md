@@ -15,7 +15,8 @@ description: Plan research or service tasks as blocks and sub-blocks; wait for a
 ## Plan
 - templates/PLAN.md: short problem summary, full block/sub-block tree, dependency order, scope, approval.
 - templates/BLOCK.md and SUB_BLOCK.md: one document per block/sub-block, descriptive folder names.
-- Each feature: detailed implementation checklist and separate verification checklist.
+- Each feature: separate task and check lists. One verb-led action per checkbox.
+- Replace abstract labels with concrete objects and expected outputs. Use AGENTS.md writing rules.
 - Include method, alternatives, data contracts, tests, expected results and completion criteria.
 - Functional hierarchy and execution order: separate. Example: web block can appear first while database/API dependencies run first.
 - Needed harness and project checks: propose in relevant block documents.

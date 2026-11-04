@@ -2,8 +2,10 @@
 
 ## Problem
 - Goal:
-- Input → output:
-- Constraints / metric:
+- Input:
+- Output:
+- Constraints:
+- Metric:
 
 ## Blocks
 
@@ -11,12 +13,12 @@
   - [ ] [Login](blocks/web/login/SUB_BLOCK.md) — credentials; session
   - [ ] [Admin](blocks/web/admin/SUB_BLOCK.md) — CSV upload; all routes
   - [ ] [Worker](blocks/web/worker/SUB_BLOCK.md) — assigned route
-- [ ] [Routing](blocks/routing/BLOCK.md) — route selection
-  - [ ] [Data checks](blocks/routing/data-checks/SUB_BLOCK.md) — coordinates; coverage
-  - [ ] [Nearest stop](blocks/routing/nearest-stop/SUB_BLOCK.md) — baseline
-  - [ ] [Capacity-aware](blocks/routing/capacity-aware/SUB_BLOCK.md) — candidate
-  - [ ] [Selected route](blocks/routing/selected-route/SUB_BLOCK.md) — DB update
-- [ ] [Database](blocks/database/BLOCK.md) — integrated records
+- [ ] [Routing](blocks/routing/BLOCK.md) — calculate bus routes
+  - [ ] [Data checks](blocks/routing/data-checks/SUB_BLOCK.md) — check coordinates and worker coverage
+  - [ ] [Nearest stop](blocks/routing/nearest-stop/SUB_BLOCK.md) — assign the nearest stop
+  - [ ] [Capacity-aware](blocks/routing/capacity-aware/SUB_BLOCK.md) — group workers within bus capacity
+  - [ ] [Selected route](blocks/routing/selected-route/SUB_BLOCK.md) — save selected routes
+- [ ] [Database](blocks/database/BLOCK.md) — store source records
   - [ ] [CSV import](blocks/database/csv-import/SUB_BLOCK.md) — validation; transaction
 - [ ] [API](blocks/api/BLOCK.md) — access; export
   - [ ] [Login](blocks/api/login/SUB_BLOCK.md) — authentication

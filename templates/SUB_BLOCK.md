@@ -1,36 +1,50 @@
 # Sub-block name
 
-## Contract
+## Goal
 - Feature:
-- Input → output:
-- Dependencies / files:
-- Approval / scope:
+- Input:
+- Output:
+- Dependencies:
+- Source files:
+- Approved scope:
 
-## Implementation
-- [ ] Concrete input validation
-- [ ] Core behavior
-- [ ] Output / error handling
-- [ ] Function docstrings: purpose; Args; Returns
+## Tasks
+- [ ] Read input fields
+- [ ] Reject missing required values
+- [ ] Implement the named feature
+- [ ] Return the specified output
+- [ ] Handle the specified errors
+- [ ] Document each function's purpose, inputs and output
 
-Replace with detailed feature-specific tasks before implementation. Example login: credential fields, required-value checks, credential verification, session creation, logout, access errors.
+Replace every example with feature-specific actions. Login example: show username field; show password field; verify credentials; create session; end session. Separate checkboxes for separate actions.
 
 ## Method
-Explain the actual algorithm or implementation: steps, formulas where useful, parameters, data mapping, interfaces, alternatives and selection reason. Include source/config links and reproduction command. Keep this detail here.
+1. Explain the input and data mapping.
+2. Describe each processing step.
+3. State formulas and parameters where relevant.
+4. Explain the output and error behavior.
+5. Compare alternatives and explain the chosen approach.
 
-## Verification
-- [ ] Normal
-- [ ] Error
-- [ ] Boundary
-- [ ] Integration / regression
+Include source/config links and the reproduction command. Detail belongs here.
+
+## Checks
+- [ ] Compare a valid input with its expected output
+- [ ] Check the response to missing input
+- [ ] Check the configured limit
+- [ ] Check one value beyond the limit
+- [ ] Verify the connected block's output
+
+Replace every example with actual cases. Example: empty CSV → missing-data error; 41 passengers / capacity 40 → split or reject, according to the approved contract.
 
 | Check | Input / fixture | Expected | Actual / status | Command / evidence |
 |---|---|---|---|---|
 
-Replace generic checks with feature-specific cases. Explain fixture construction, independent expected values, real/mocked dependencies and execution steps. Record results and logs. Pending/failed checks stay unchecked.
+Explain fixture creation, independent expected values, real/mocked dependencies and execution steps. Record observed results and logs. Leave failed/pending checks unchecked.
 
 ## Current
-- Result / metric / runtime:
-- Choice / reason:
+- Result / metric:
+- Runtime:
+- Selected approach / reason:
 - Failure / pending:
 - Code revision / run links:
 - Next action:
